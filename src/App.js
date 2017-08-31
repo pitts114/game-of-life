@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
-export const gridSize = 40
-const probability = 20 // each cell has a 1 in $probability chance to start alive
+export const gridSize = 50
+const probability = 7 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
-const lowSpeed = 1000 //sim step time, ms
-const medSpeed = 500
-const highSpeed = 200
+const lowSpeed = 600 //sim step time, ms
+const medSpeed = 200
+const highSpeed = 50
 
 
 class App extends Component {
@@ -59,8 +59,8 @@ class App extends Component {
   processCells() {
     //numberOfNeighbors looks at "previous" state,
     //so we can update cellArr whenever
-    console.log(this.state.cellArr)
     var cellArr = this.state.cellArr
+    /*
     for (var i = 0; i < gridSize; i++){
       for (var j = 0; j < gridSize; j++){
         var neighbors = this.numberOfNeighbors(i,j)
@@ -77,6 +77,31 @@ class App extends Component {
         }
       }
     }
+    */
+    for (var i = 0; i < gridSize; i++){
+      for (var j = 0; j < gridSize; j++){
+        var neighbors = this.numberOfNeighbors(i,j)
+        //Any dead cell with exactly three live neighbours becomes a live cell.
+        if (this.state.cellArr[i][j] === undefined){
+          if (neighbors === 3) {
+            cellArr[i][j] = 0
+          }
+        }
+        else { //if alive
+          //Any live cell with fewer than two live neighbours dies.
+          //Any live cell with more than three live neighbours dies.
+          //Any live cell with two or three live neighbours lives on.
+          if (neighbors === 2 || neighbors === 3){
+            if (cellArr[i][j] < maxAge){
+              cellArr[i][j]++
+            }
+          }
+          else {
+            cellArr[i][j] = undefined
+          }
+        }
+      }
+    }
     const state = this.state
     state.cellArr = cellArr
     this.setState(state)
@@ -87,14 +112,15 @@ class App extends Component {
     var total = 0
     for (var i = x-1; i <= x+1; i++){
       for (var j = y-1; j <= y+1; j++){
-        if (i==x && j==y){ //you arent your own neighbor
+        if (i===x && j===y){ //you arent your own neighbor
           continue
         }
-        if (IsInsideGrid(i,j)){
-          if (this.state.cellArr[i,j]) //if cell here is alive
+        if (!IsInsideGrid(i,j)){ //not in the grid?
+          continue
+        }
+        if (this.state.cellArr[i][j] !== undefined) //if cell here is alive
           total++
         }
-      }
     }
     return total
   }
@@ -111,6 +137,7 @@ class App extends Component {
         <Button onClick={this.startSim}>Run</Button>
         <Button onClick={this.pauseSim}>Pause</Button>
         <Button>Clear</Button>
+        <Button onClick={this.processCells}>Step</Button>
         <Board cellArr={this.state.cellArr} />
       </div>
     );
@@ -132,7 +159,7 @@ function createCellArr() {
 function deadOrAlive() {
   var num = Math.ceil(Math.random() * probability)
   if (num === probability){
-    return 0
+    return maxAge
   }
   return undefined
 }

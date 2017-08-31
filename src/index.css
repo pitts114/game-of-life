@@ -11,22 +11,22 @@ body {
   background: black; }
 
 .age0 {
-  background: #ff0000; }
+  background: #ffbaba; }
 
 .age1 {
-  background: #ee0000; }
+  background: #ff8282; }
 
 .age2 {
-  background: #dd0000; }
+  background: #ff5151; }
 
 .age3 {
-  background: #cc0000; }
+  background: #fc2828; }
 
 .age4 {
-  background: #bb0000; }
+  background: #db0808; }
 
 .age5 {
-  background: #aa0000; }
+  background: #ad0000; }
 
 .myrow {
   line-height: 11px; }
