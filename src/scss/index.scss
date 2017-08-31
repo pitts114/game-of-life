@@ -1,0 +1,18 @@
+$squareSize: 10px;
+
+@mixin square() {
+  width: $squareSize;
+  height: $squareSize;
+}
+
+.cell {
+  display: inline-block;
+  @include square();
+}
+
+.dead {
+  background: black;
+}
+.age0 {
+    background: red;
+}

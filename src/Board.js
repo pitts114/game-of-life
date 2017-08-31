@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {gridSize} from './App.js'
 
 class Board extends Component {
   constructor(props){
@@ -12,25 +13,13 @@ class Board extends Component {
 }
 
 class Cell extends Component {
-  constructor() {
-    super()
-    this.state= {
-      age: 0
-    }
-    this.getOlder = this.getOlder.bind(this)
-  }
-
-  getOlder() {
-    var state = this.state
-    state.age = state.age + 1
-    this.setState(state)
-  }
-
   render() {
-      var cell = <div className={'age' + this.state.age}></div>
-      this.getOlder()
-      return( {cell} )
+    if (this.props.age === undefined) {
+      return <div className="dead cell"></div>
+    }
+    return <div className={"age" + this.props.age + " cell"}></div>
   }
 }
+
 
 export default Board

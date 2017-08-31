@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
-const gridSize = 40
+export const gridSize = 40
 const probability = 5
+const maxAge = 5
 
 const lowSpeed = 1000 //sim step time, ms
 const medSpeed = 500
@@ -63,10 +64,17 @@ class App extends Component {
       for (var j = 0; j < gridSize; j++){
         var neighbors = this.numberOfNeighbors(i,j)
         if (neighbors === 3){
-          cellArr[i][j] = true
+          if (cellArr[i][j] === undefined){
+            cellArr[i][j] = 0 //it's alive!
+          }
+          else { //get older
+            if (cellArr[i][j] < maxAge){
+              cellArr[i][j]++
+            }
+          }
         }
         else if (neighbors < 2 || neighbors > 3) {
-          cellArr[i][j] = false
+          cellArr[i][j] = undefined
         }
       }
     }
@@ -120,9 +128,9 @@ function createCellArr() {
 function deadOrAlive() {
   var num = Math.ceil(Math.random() * probability)
   if (num === probability){
-    return true
+    return 0
   }
-  return false
+  return undefined
 }
 
 function IsInsideGrid(x,y) {

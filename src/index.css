@@ -1,5 +1,12 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-}
+.cell {
+  display: inline-block;
+  width: 10px;
+  height: 10px; }
+
+.dead {
+  background: black; }
+
+.age0 {
+  background: red; }
+
+/*# sourceMappingURL=index.css.map */
