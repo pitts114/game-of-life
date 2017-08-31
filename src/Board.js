@@ -10,9 +10,9 @@ class Board extends Component {
     for (var i = 0; i < gridSize; i++){
       var row = []
       for (var j = 0; j < gridSize; j++){
-        row.push(<Cell age={this.props.cellArr[i][j]}/>)
+        row.push(<Cell key={i.toString() + j.toString() + this.props.cellArr[i][j]} age={this.props.cellArr[i][j]}/>)
       }
-      cellGrid.push(<div className="row">{row}</div>)
+      cellGrid.push(<div className="myrow">{row}</div>)
     }
     return (
       <div>

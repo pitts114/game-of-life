@@ -3,7 +3,7 @@ import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
 export const gridSize = 40
-const probability = 5
+const probability = 20 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
 const lowSpeed = 1000 //sim step time, ms
@@ -59,6 +59,7 @@ class App extends Component {
   processCells() {
     //numberOfNeighbors looks at "previous" state,
     //so we can update cellArr whenever
+    console.log(this.state.cellArr)
     var cellArr = this.state.cellArr
     for (var i = 0; i < gridSize; i++){
       for (var j = 0; j < gridSize; j++){
@@ -67,11 +68,9 @@ class App extends Component {
           if (cellArr[i][j] === undefined){
             cellArr[i][j] = 0 //it's alive!
           }
-          else { //get older
-            if (cellArr[i][j] < maxAge){
+          else if (cellArr[i][j] < maxAge){ //get older
               cellArr[i][j]++
             }
-          }
         }
         else if (neighbors < 2 || neighbors > 3) {
           cellArr[i][j] = undefined
@@ -88,6 +87,9 @@ class App extends Component {
     var total = 0
     for (var i = x-1; i <= x+1; i++){
       for (var j = y-1; j <= y+1; j++){
+        if (i==x && j==y){ //you arent your own neighbor
+          continue
+        }
         if (IsInsideGrid(i,j)){
           if (this.state.cellArr[i,j]) //if cell here is alive
           total++
@@ -106,7 +108,9 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <Button>Run</Button><Button>Pause</Button><Button>Clear</Button>
+        <Button onClick={this.startSim}>Run</Button>
+        <Button onClick={this.pauseSim}>Pause</Button>
+        <Button>Clear</Button>
         <Board cellArr={this.state.cellArr} />
       </div>
     );

@@ -1,12 +1,37 @@
+body {
+  background-color: gray; }
+
 .cell {
   display: inline-block;
   width: 10px;
-  height: 10px; }
+  height: 10px;
+  margin-left: 1px; }
 
 .dead {
   background: black; }
 
 .age0 {
-  background: red; }
+  background: #ff0000; }
+
+.age1 {
+  background: #ee0000; }
+
+.age2 {
+  background: #dd0000; }
+
+.age3 {
+  background: #cc0000; }
+
+.age4 {
+  background: #bb0000; }
+
+.age5 {
+  background: #aa0000; }
+
+.myrow {
+  line-height: 11px; }
+
+.container {
+  white-space: nowrap; }
 
 /*# sourceMappingURL=index.css.map */

@@ -1,5 +1,9 @@
 $squareSize: 10px;
 
+body {
+  background-color: gray;
+}
+
 @mixin square() {
   width: $squareSize;
   height: $squareSize;
@@ -8,11 +12,36 @@ $squareSize: 10px;
 .cell {
   display: inline-block;
   @include square();
+  margin-left: 1px;
 }
 
 .dead {
   background: black;
 }
+
 .age0 {
-    background: red;
+    background: #ff0000;
+}
+
+.age1 {
+    background: #ee0000;
+}
+.age2 {
+  background: #dd0000;
+}
+.age3 {
+  background: #cc0000;
+}
+.age4 {
+  background: #bb0000;
+}
+.age5 {
+  background: #aa0000;
+}
+
+.myrow {
+line-height: $squareSize + 1px;
+}
+.container {
+  white-space: nowrap;
 }
