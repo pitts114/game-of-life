@@ -6,8 +6,18 @@ class Board extends Component {
     super(props)
   }
   render(){
+    var cellGrid = []
+    for (var i = 0; i < gridSize; i++){
+      var row = []
+      for (var j = 0; j < gridSize; j++){
+        row.push(<Cell age={this.props.cellArr[i][j]}/>)
+      }
+      cellGrid.push(<div className="row">{row}</div>)
+    }
     return (
-      <h1>Hello World!</h1>
+      <div>
+        {cellGrid}
+      </div>
     )
   }
 }
