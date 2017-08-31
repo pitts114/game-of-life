@@ -3,12 +3,14 @@ import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
 export const gridSize = 50
-const probability = 7 // each cell has a 1 in $probability chance to start alive
+const probability = 2 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
 const lowSpeed = 600 //sim step time, ms
 const medSpeed = 200
 const highSpeed = 50
+
+var generation = 0
 
 
 class App extends Component {
@@ -105,6 +107,7 @@ class App extends Component {
     const state = this.state
     state.cellArr = cellArr
     this.setState(state)
+    generation++
   }
 
   numberOfNeighbors(x, y) {
@@ -138,6 +141,7 @@ class App extends Component {
         <Button onClick={this.pauseSim}>Pause</Button>
         <Button>Clear</Button>
         <Button onClick={this.processCells}>Step</Button>
+        <h3>{"Generation:" + generation}</h3>
         <Board cellArr={this.state.cellArr} />
       </div>
     );
