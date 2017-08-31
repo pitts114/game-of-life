@@ -3,6 +3,7 @@ import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
 const gridSize = 40
+const probability = 5
 
 const lowSpeed = 1000 //sim step time, ms
 const medSpeed = 500
@@ -25,6 +26,7 @@ class App extends Component {
     this.clearSim = this.clearSim.bind(this)
     this.processCells = this.processCells.bind(this)
     this.setSimSpeed = this.setSimSpeed.bind(this)
+    this.numberOfNeighbors = this.numberOfNeighbors.bind(this)
   }
 
   startSim() {
@@ -54,7 +56,37 @@ class App extends Component {
   }
 
   processCells() {
+    //numberOfNeighbors looks at "previous" state,
+    //so we can update cellArr whenever
+    var cellArr = this.state.cellArr
+    for (var i = 0; i < gridSize; i++){
+      for (var j = 0; j < gridSize; j++){
+        var neighbors = this.numberOfNeighbors(i,j)
+        if (neighbors === 3){
+          cellArr[i][j] = true
+        }
+        else if (neighbors < 2 || neighbors > 3) {
+          cellArr[i][j] = false
+        }
+      }
+    }
+    const state = this.state
+    state.cellArr = cellArr
+    this.setState(state)
+  }
 
+  numberOfNeighbors(x, y) {
+    //check left side from x, y coordinates
+    var total = 0
+    for (var i = x-1; i <= x+1; i++){
+      for (var j = y-1; j <= y+1; j++){
+        if (IsInsideGrid(i,j)){
+          if (this.state.cellArr[i,j]) //if cell here is alive
+          total++
+        }
+      }
+    }
+    return total
   }
 
   setSimSpeed(timems) {
@@ -77,8 +109,27 @@ function createCellArr() {
   var arr = new Array(gridSize)
   for (var i = 0; i < gridSize; i++){
     arr[i] = new Array(gridSize)
+    for (var j = 0; j < gridSize; j++){
+      arr[i][j] = deadOrAlive()
+    }
   }
   return arr
+}
+
+//returns true for alive, false for dead
+function deadOrAlive() {
+  var num = Math.ceil(Math.random() * probability)
+  if (num === probability){
+    return true
+  }
+  return false
+}
+
+function IsInsideGrid(x,y) {
+  if (x >=0 && x < gridSize && y >= 0 && y < gridSize){
+    return true
+  }
+  return false
 }
 
 export default App;
