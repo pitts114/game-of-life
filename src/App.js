@@ -5,7 +5,7 @@ import Board from './Board.js'
 export const gridSize = 50
 export const gridX = 30
 export const gridY = 50
-const probability = 5 // each cell has a 1 in $probability chance to start alive
+const probability = 3 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
 const lowSpeed = 600 //sim step time, ms
@@ -153,6 +153,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <h1>The Game of Life</h1>
         <Button onClick={this.startSim}>Run</Button>
         <Button onClick={this.pauseSim}>Pause</Button>
         <Button onClick={this.resetSim}>Reset</Button>
