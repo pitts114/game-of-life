@@ -3,9 +3,9 @@ import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
 export const gridSize = 50
-export const gridX = 50
-export const gridY = 70
-const probability = 2 // each cell has a 1 in $probability chance to start alive
+export const gridX = 30
+export const gridY = 50
+const probability = 5 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
 const lowSpeed = 600 //sim step time, ms
@@ -63,25 +63,8 @@ class App extends Component {
   processCells() {
     //numberOfNeighbors looks at "previous" state,
     //so we can update cellArr whenever
-    var cellArr = this.state.cellArr
-    /*
-    for (var i = 0; i < gridSize; i++){
-      for (var j = 0; j < gridSize; j++){
-        var neighbors = this.numberOfNeighbors(i,j)
-        if (neighbors === 3){
-          if (cellArr[i][j] === undefined){
-            cellArr[i][j] = 0 //it's alive!
-          }
-          else if (cellArr[i][j] < maxAge){ //get older
-              cellArr[i][j]++
-            }
-        }
-        else if (neighbors < 2 || neighbors > 3) {
-          cellArr[i][j] = undefined
-        }
-      }
-    }
-    */
+    var cellArr = this.state.cellArr.slice()
+
     for (var i = 0; i < gridX; i++){
       for (var j = 0; j < gridY; j++){
         var neighbors = this.numberOfNeighbors(i,j)
