@@ -8,8 +8,8 @@ export const gridY = 50
 const probability = 3 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
-const lowSpeed = 600 //sim step time, ms
-const medSpeed = 200
+const lowSpeed = 200 //sim step time, ms
+const medSpeed = 100
 const highSpeed = 50
 
 var generation = 0
@@ -63,6 +63,7 @@ class App extends Component {
     const state = this.state
     state.cellArr = arr
     this.setState(state)
+    generation = 0
   }
 
   resetSim() {
@@ -73,6 +74,7 @@ class App extends Component {
       state.intervalId = undefined
     }
     this.setState(state)
+    generation = 0
   }
 
   processCells() {
@@ -132,9 +134,11 @@ class App extends Component {
   }
 
   setSimSpeed(timems) {
+    this.pauseSim()
     var state = this.state
     state.simSpeed = timems
     this.setState(state)
+    this.startSim()
   }
 
   clickToAdd(x,y) {
@@ -161,11 +165,15 @@ class App extends Component {
         <Button onClick={this.processCells}>Step</Button>
         <h3>{"Generation:" + generation}</h3>
         <Board cellArr={this.state.cellArr} clickToAdd={this.clickToAdd}/>
+        <Button onClick={()=>{this.setSimSpeed(highSpeed)}}>2x</Button>
+        <Button onClick={()=>{this.setSimSpeed(medSpeed)}}>1x</Button>
+        <Button onClick={()=>{this.setSimSpeed(lowSpeed)}}>0.5x</Button>
         <h4>Rules:</h4>
         <p>Any live cell with fewer than two live neighbours dies, as if caused by underpopulation.</p>
         <p>Any live cell with two or three live neighbours lives on to the next generation.</p>
         <p>Any live cell with more than three live neighbours dies, as if by overpopulation.</p>
         <p>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</p>
+        <p>(Click anywhere on the grid to add/remove cells.)</p>
       </div>
     );
   }
