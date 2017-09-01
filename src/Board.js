@@ -10,7 +10,7 @@ class Board extends Component {
     for (var i = 0; i < gridX; i++){
       var col = []
       for (var j = 0; j < gridY; j++){
-        col.push(<Cell key={i.toString() + j.toString() + this.props.cellArr[i][j]} age={this.props.cellArr[i][j]}/>)
+        col.push(<Cell key={i.toString() + j.toString() + this.props.cellArr[i][j]} age={this.props.cellArr[i][j]} clickToAdd={this.props.clickToAdd} x={i} y={j}/>)
       }
       cellGrid.push(<div className="myrow">{col}</div>)
     }
@@ -25,9 +25,9 @@ class Board extends Component {
 class Cell extends Component {
   render() {
     if (this.props.age === undefined) {
-      return <div className="dead cell"></div>
+      return <div className="dead cell" onClick={()=>{this.props.clickToAdd(this.props.x, this.props.y)}}></div>
     }
-    return <div className={"age" + this.props.age + " cell"}></div>
+    return <div className={"age" + this.props.age + " cell"} onClick={()=>{this.props.clickToAdd(this.props.x, this.props.y)}}></div>
   }
 }
 

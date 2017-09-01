@@ -32,6 +32,8 @@ class App extends Component {
     this.processCells = this.processCells.bind(this)
     this.setSimSpeed = this.setSimSpeed.bind(this)
     this.numberOfNeighbors = this.numberOfNeighbors.bind(this)
+    this.clickToAdd = this.clickToAdd.bind(this)
+    this.resetSim = this.resetSim.bind(this)
   }
 
   startSim() {
@@ -51,6 +53,19 @@ class App extends Component {
   }
 
   clearSim() {
+    var arr = new Array(gridX)
+    for (var i = 0; i < gridX; i++){
+      arr[i] = new Array(gridY)
+      for (var j = 0; j < gridY; j++){
+        arr[i][j] = undefined
+      }
+    }
+    const state = this.state
+    state.cellArr = arr
+    this.setState(state)
+  }
+
+  resetSim() {
     const state = this.state
     state.cellArr = createCellArr()
     if (state.intervalId){
@@ -63,11 +78,12 @@ class App extends Component {
   processCells() {
     //numberOfNeighbors looks at "previous" state,
     //so we can update cellArr whenever
-    var cellArr = this.state.cellArr.slice()
+    const cellArr = copyArray(this.state.cellArr)
+    const arr = copyArray(this.state.cellArr)
 
     for (var i = 0; i < gridX; i++){
       for (var j = 0; j < gridY; j++){
-        var neighbors = this.numberOfNeighbors(i,j)
+        var neighbors = this.numberOfNeighbors(arr,i,j)
         //Any dead cell with exactly three live neighbours becomes a live cell.
         if (this.state.cellArr[i][j] === undefined){
           if (neighbors === 3) {
@@ -95,7 +111,7 @@ class App extends Component {
     generation++
   }
 
-  numberOfNeighbors(x, y) {
+  numberOfNeighbors(arr, x, y) {
     //check left side from x, y coordinates
     var total = 0
     for (var i = x-1; i <= x+1; i++){
@@ -106,9 +122,11 @@ class App extends Component {
         if (!IsInsideGrid(i,j)){ //not in the grid?
           continue
         }
-        if (this.state.cellArr[i][j] !== undefined) //if cell here is alive
+        if (arr[i][j] !== undefined) //if cell here is alive
           total++
         }
+    }
+    if (total !== 0){
     }
     return total
   }
@@ -119,15 +137,29 @@ class App extends Component {
     this.setState(state)
   }
 
+  clickToAdd(x,y) {
+    const arr = this.state.cellArr.slice()
+    if (arr[x][y] === undefined){
+      arr[x][y] = 0
+    }
+    else {
+      arr[x][y] = undefined
+    }
+    const state = this.state
+    state.cellArr = arr
+    this.setState(state)
+  }
+
   render() {
     return (
       <div className="container">
         <Button onClick={this.startSim}>Run</Button>
         <Button onClick={this.pauseSim}>Pause</Button>
+        <Button onClick={this.resetSim}>Reset</Button>
         <Button onClick={this.clearSim}>Clear</Button>
         <Button onClick={this.processCells}>Step</Button>
         <h3>{"Generation:" + generation}</h3>
-        <Board cellArr={this.state.cellArr} />
+        <Board cellArr={this.state.cellArr} clickToAdd={this.clickToAdd}/>
       </div>
     );
   }
@@ -158,6 +190,14 @@ function IsInsideGrid(x,y) {
     return true
   }
   return false
+}
+
+function copyArray(arr){
+    var new_arr = arr.slice(0);
+    for(var i = new_arr.length; i--;)
+        if(new_arr[i] instanceof Array)
+            new_arr[i] = copyArray(new_arr[i]);
+    return new_arr;
 }
 
 export default App;
