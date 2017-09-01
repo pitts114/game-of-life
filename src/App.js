@@ -3,6 +3,8 @@ import {Button} from 'react-bootstrap'
 import Board from './Board.js'
 
 export const gridSize = 50
+export const gridX = 50
+export const gridY = 70
 const probability = 2 // each cell has a 1 in $probability chance to start alive
 const maxAge = 5
 
@@ -80,8 +82,8 @@ class App extends Component {
       }
     }
     */
-    for (var i = 0; i < gridSize; i++){
-      for (var j = 0; j < gridSize; j++){
+    for (var i = 0; i < gridX; i++){
+      for (var j = 0; j < gridY; j++){
         var neighbors = this.numberOfNeighbors(i,j)
         //Any dead cell with exactly three live neighbours becomes a live cell.
         if (this.state.cellArr[i][j] === undefined){
@@ -139,7 +141,7 @@ class App extends Component {
       <div className="container">
         <Button onClick={this.startSim}>Run</Button>
         <Button onClick={this.pauseSim}>Pause</Button>
-        <Button>Clear</Button>
+        <Button onClick={this.clearSim}>Clear</Button>
         <Button onClick={this.processCells}>Step</Button>
         <h3>{"Generation:" + generation}</h3>
         <Board cellArr={this.state.cellArr} />
@@ -149,10 +151,10 @@ class App extends Component {
 }
 
 function createCellArr() {
-  var arr = new Array(gridSize)
-  for (var i = 0; i < gridSize; i++){
-    arr[i] = new Array(gridSize)
-    for (var j = 0; j < gridSize; j++){
+  var arr = new Array(gridX)
+  for (var i = 0; i < gridX; i++){
+    arr[i] = new Array(gridY)
+    for (var j = 0; j < gridY; j++){
       arr[i][j] = deadOrAlive()
     }
   }
@@ -169,7 +171,7 @@ function deadOrAlive() {
 }
 
 function IsInsideGrid(x,y) {
-  if (x >=0 && x < gridSize && y >= 0 && y < gridSize){
+  if (x >=0 && x < gridX && y >= 0 && y < gridY){
     return true
   }
   return false

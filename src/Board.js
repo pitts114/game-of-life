@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {gridSize} from './App.js'
+import {gridSize, gridX, gridY} from './App.js'
 
 class Board extends Component {
   constructor(props){
@@ -7,12 +7,12 @@ class Board extends Component {
   }
   render(){
     var cellGrid = []
-    for (var i = 0; i < gridSize; i++){
-      var row = []
-      for (var j = 0; j < gridSize; j++){
-        row.push(<Cell key={i.toString() + j.toString() + this.props.cellArr[i][j]} age={this.props.cellArr[i][j]}/>)
+    for (var i = 0; i < gridX; i++){
+      var col = []
+      for (var j = 0; j < gridY; j++){
+        col.push(<Cell key={i.toString() + j.toString() + this.props.cellArr[i][j]} age={this.props.cellArr[i][j]}/>)
       }
-      cellGrid.push(<div className="myrow">{row}</div>)
+      cellGrid.push(<div className="myrow">{col}</div>)
     }
     return (
       <div>
